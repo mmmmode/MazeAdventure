@@ -1,6 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorAccent">#FF4081</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="themeColor">#303F9F</color>
+    <!--FIXME *********下面是通用不变的颜色*********-->
+    <color name="transparent">#00ffffff</color>
+    <color name="transparent_black_30">#3fff</color>
+
+    <!--主题色(亮)-->
+    <color name="commonThemeColorLight">#3353FE</color>
+    <color name="commonThemeColorLight_press">#2942cb</color>
+    <!--主题色(暗)-->
+    <color name="commonThemeColorDark">#373D4D</color>
+
+    <color name="colorMainHighlight">#00C2B0</color>
+    <color name="colorMainHighlight_pressed">#00a898</color>
+
+    <!--66dad0-->
+    <!-- 文字标题（暗色）-->
+    <color name="txtTitleDark">#333333</color>
+    <color name="txtContentDark">#A8333333</color>
+    <color name="txtContentDark_66">#a6171e38</color>
+    <color name="txtContentDark_50">#54333333</color>
+    <color name="txtContentDark_15">#25333333</color>
+    <color name="txtContentDark_10">#1a333333</color>
+
+    <!-- 通用色 -->
+    <color name="black">#000000</color>
+    <color name="black_80">#cc000000</color>
+    <color name="black_70">#B2000000</color>
+    <color name="black_60">#99000000</color>
+    <color name="black_50">#7F000000</color>
+    <color name="black_30">#40000000</color>
+    <color name="black_20">#33000000</color>
+    <color name="black_10">#13000000</color>
+    <color name="black_00">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_80">#c6ffffff</color>
+    <color name="white_50">#7fffffff</color>
+    <color name="white_44">#70ffffff</color>
+    <color name="white_65">#a5ffffff</color>
+    <color name="white_20">#33ffffff</color>
+    <color name="white_10">#16ffffff</color>
+    <color name="white_8">#14ffffff</color>
+    <color name="balloon_text_color1">#666666</color>
+    <color name="balloon_text_color2">#00C2B0</color>
+    <color name="button_color_press">#00a2B0</color>
+    <!--<color name="gray">#999999</color>-->
+    <color name="back_white">#f0eeec</color>
+    <color name="blacksmoke">#464B5A</color>
+    <color name="whitesmoke">#FAFAFA</color>
+    <color name="graywhite">#44ffffff</color>
+    <color name="red">#d20000</color>
+    <color name="text_third_level_color">#8791A0</color>
+    <color name="mask_view_background">#60373D4D</color>
+    <color name="music_header_bg">#11ffffff</color>
+    <color name="toolbar_white_ground_color">#fafafa</color>
+
+    <!-- other -->
+    <color name="check_red">#E05454</color>
+    <color name="not_check_gray">#d2d2d2</color>
+    <!-- playing list bg theme2 -->
+    <color name="playing_list_bg_theme2">#446A96</color>
+    <color name="playing_list_lines_theme2">#26333333</color>
+    <color name="golden">#FFBB00</color>
+
+    <color name="light_purple">#E6C5F1</color>
+    <color name="deep_purple">#6F4CEF</color>
+    <color name="light_blue">#92E4E9</color>
+    <color name="deep_blue">#27A7E5</color>
+    <color name="playing_default_background">#373D4D</color>
+    <color name="color_player_content">#F4F4F4</color>
+    <color name="tools_bar_bg">#2E2E2E</color>
+    <color name="shuffle_header_bg">#F2F2F2</color>
+    <!--气球颜色值-->
+    <color name="balloon_color">#4EFFEB</color>
+    <!--history-->
+    <color name="clear_all_bg">#5465FF</color>
+    <!--toolbar-->
+    <color name="start_color">#6D00FF</color>
+    <color name="end_color">#DB54FF</color>
+    <color name="pressed_end_color">#caadf5</color>
+    <!--评分背景色-->
+    <color name="rate_dialog_bg">#436A96</color>
+    <color name="rate_dialog_tv">#FFEC58</color>
+
+    <color name="search_theme">#27364F</color>
+
+    <color name="dialog_ad_title">#d0000000</color>
+    <color name="dialog_ad_describe">#80000000</color>
+    <!--锁屏音乐背景色-->
+    <color name="play_lock_music_bg">#7EA0DF</color>
+    <color name="lines">#D8D8D8</color>
+
 </resources>

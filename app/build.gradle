@@ -1,14 +1,29 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    signingConfigs {
+        debug {
+            keyAlias 'maze.keystore'
+            keyPassword 'maze123'
+            storeFile file('../maze.keystore')
+            storePassword 'maze123'
+        }
+        release {
+            keyAlias 'maze.keystore'
+            keyPassword 'maze123'
+            storeFile file('../maze.keystore')
+            storePassword 'maze123'
+        }
+    }
+
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.uestc.mode.mazeadventure"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 2
+        versionName "1.1"
     }
     buildTypes {
         release {
