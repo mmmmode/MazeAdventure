@@ -1,4 +1,4 @@
-package com.uestc.mode.mazeadventure;
+package com.uestc.mode.mazeadventure.bean;
 
 import java.util.ArrayList;
 

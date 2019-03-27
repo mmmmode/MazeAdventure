@@ -34,10 +34,25 @@
             />
         <TextView
             android:layout_marginTop="20dp"
-            android:id="@+id/hand_textview"
+            android:id="@+id/hand_light_extview"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="拯救公主"
+            android:text="拯救公主-光明"
+            android:gravity="center"
+            android:textColor="@color/whitesmoke"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            android:background="@drawable/shape_click_round_4dp"
+            />
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/hand_dark_textview"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="拯救公主-地狱"
             android:gravity="center"
             android:textColor="@color/whitesmoke"
             android:paddingLeft="40dp"

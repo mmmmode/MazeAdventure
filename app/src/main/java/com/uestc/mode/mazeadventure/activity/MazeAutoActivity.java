@@ -1,5 +1,4 @@
-package com.uestc.mode.mazeadventure;
-
+package com.uestc.mode.mazeadventure.activity;
 
 import android.app.Activity;
 import android.os.Handler;
@@ -8,10 +7,12 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
-public class HandControlActivity extends Activity implements View.OnClickListener {
+import com.uestc.mode.mazeadventure.view.MazeView;
+import com.uestc.mode.mazeadventure.R;
+
+public class MazeAutoActivity extends Activity implements View.OnClickListener {
     MazeView mazeView;
     Handler handler = new Handler();
     boolean isGenerated = false;
@@ -20,21 +21,16 @@ public class HandControlActivity extends Activity implements View.OnClickListene
     View girlSmallView;
     View girlBigView;
 
-    ControlManager controlManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_handmaze);
+        setContentView(R.layout.activity_automaze);
         mazeView = findViewById(R.id.maze_view);
         girlSmallView = findViewById(R.id.small_girl);
         girlBigView = findViewById(R.id.girl_big);
         girlBigView.setVisibility(View.INVISIBLE);
         girlSmallView.setVisibility(View.INVISIBLE);
-
-        findViewById(R.id.generate_maze_action_tv).setVisibility(View.GONE);
         initListener();
-        initData();
     }
 
     private void initListener() {
@@ -45,9 +41,7 @@ public class HandControlActivity extends Activity implements View.OnClickListene
             @Override
             public void onGenerate(final boolean generated) {
                 isGenerated = generated;
-                Toast.makeText(HandControlActivity.this, "星光，懂我，也懂你", Toast.LENGTH_SHORT).show();
-                findViewById(R.id.generate_maze_action_tv).setVisibility(View.GONE);
-                findViewById(R.id.generate_maze_tv).setVisibility(View.GONE);
+                Toast.makeText(MazeAutoActivity.this, "你看，这不就是我们之间的距离么？", Toast.LENGTH_SHORT).show();
                 showSmallGirl();
             }
 
@@ -55,31 +49,12 @@ public class HandControlActivity extends Activity implements View.OnClickListene
             public void onToTheEnd() {
                 isRunning = false;
                 isGenerated = false;
-                Toast.makeText(HandControlActivity.this, "我来了，你在哪？", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MazeAutoActivity.this, "我来了，你在哪？", Toast.LENGTH_SHORT).show();
                 dismissSmallGirl();
             }
         });
     }
 
-    public void initData(){
-        controlManager = new ControlManager(this);
-        controlManager.setCallback(new ControlManager.Callback() {
-            @Override
-            public void controlCallback(int controlType) {
-//                switch (controlType){
-//                    case ControlManager.CONTROL_LEFT:
-//                        break;
-//                    case ControlManager.CONTROL_RIGHT:
-//                        break;
-//                    case ControlManager.CONTROL_BOTTOM:
-//                        break;
-//                    case ControlManager.CONTROL_TOP:
-//                        break;
-//                }
-                mazeView.controlNextStep(controlType);
-            }
-        });
-    }
     private void dismissSmallGirl() {
         AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
         alphaAnimation.setDuration(1000);
@@ -118,7 +93,7 @@ public class HandControlActivity extends Activity implements View.OnClickListene
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                girlBigView.startAnimation(dismissAnim);
+                    girlBigView.startAnimation(dismissAnim);
             }
 
             @Override
@@ -198,17 +173,17 @@ public class HandControlActivity extends Activity implements View.OnClickListene
                 if (isRunning) return;
                 isGenerated = false;
                 mazeView.startGenerate();
-                Toast.makeText(HandControlActivity.this, "你站在我对侧，却隔着迷宫般银河", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MazeAutoActivity.this, "你站在我对侧，却隔着迷宫般银河", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.generate_maze_action_tv:
                 if(isEnd)return;
                 if (isRunning) return;
                 if (!isGenerated) {
-                    Toast.makeText(HandControlActivity.this, "足迹尚未填满，我亦不知去向", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MazeAutoActivity.this, "足迹尚未填满，我亦不知去向", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 isRunning = true;
-                Toast.makeText(HandControlActivity.this, "记忆随风翻过，足迹逐渐清晰", Toast.LENGTH_LONG).show();
+                Toast.makeText(MazeAutoActivity.this, "记忆随风翻过，足迹逐渐清晰", Toast.LENGTH_LONG).show();
                 mazeView.autoStep();
                 break;
             case R.id.exitTv:

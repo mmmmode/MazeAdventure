@@ -1,11 +1,17 @@
-package com.uestc.mode.mazeadventure;
+package com.uestc.mode.mazeadventure.manager;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
-public class ControlManager implements View.OnClickListener{
+import com.uestc.mode.mazeadventure.R;
+import com.uestc.mode.mazeadventure.callback.HandControlCallback;
+
+/**
+ * 控制手柄的管理类
+ */
+public class HandControlManager implements View.OnClickListener,HandControlCallback{
     public static final int CONTROL_LEFT = 0;
     public static final int CONTROL_RIGHT = 1;
     public static final int CONTROL_TOP = 2;
@@ -16,7 +22,7 @@ public class ControlManager implements View.OnClickListener{
     View bottomView;
     View root;
     Activity context;
-    public ControlManager(Activity context){
+    public HandControlManager(Activity context){
         this.context = context;
         init();
     }
@@ -34,32 +40,30 @@ public class ControlManager implements View.OnClickListener{
 
     }
 
-    Callback callback;
-
-    public void setCallback(Callback callback) {
-        this.callback = callback;
-    }
-
     @Override
     public void onClick(View view) {
         if (callback == null) return;
+        int type = -1;
         switch (view.getId()){
             case R.id.left_view:
-                callback.controlCallback(CONTROL_LEFT);
+                type = (CONTROL_LEFT);
                 break;
             case R.id.right_view:
-                callback.controlCallback(CONTROL_RIGHT);
+                type = (CONTROL_RIGHT);
                 break;
             case R.id.top_view:
-                callback.controlCallback(CONTROL_TOP);
+                type = (CONTROL_TOP);
                 break;
             case R.id.bottom_view:
-                callback.controlCallback(CONTROL_BOTTOM);
+                type = (CONTROL_BOTTOM);
                 break;
         }
+        if(type != -1)
+        callback.controlCallback(type);
     }
 
-    interface Callback{
-        void controlCallback(int controlType);
+    @Override
+    public void onControlType(int TYPE) {
+
     }
 }
