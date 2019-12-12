@@ -19,7 +19,7 @@
             android:id="@+id/small_girl"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/girl2"
+            android:src="@drawable/gongzhuxiao"
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="4dp"
             android:layout_marginRight="4dp"/>
@@ -28,7 +28,7 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/girl3"
+            android:src="@drawable/gongzhu"
             />
         <RelativeLayout
             android:id="@+id/controlView"
@@ -101,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="翻山越岭只为你"
+            android:text="公主，我来救你"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="20sp"
@@ -111,7 +111,7 @@
             android:id="@+id/exitTv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="下一次 我一定要找到你..."
+            android:text="蓦然回首，公主又被抓走了"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="20sp"
