@@ -30,7 +30,7 @@ import java.util.Stack;
 public class MazeView extends View {
     public static final int BOTTOM = 4;
     public static final int LEFT = 1;
-    public static final int POINT_SIZE = 40;
+    public static final int POINT_SIZE = 80;
     public static final int RIGHT = 2;
     public static final String TAG = "modetag";
     public static final int TOP = 3;
@@ -38,17 +38,18 @@ public class MazeView extends View {
     Context context;
     int currentStep = -1;
     Handler handler = new Handler();
-    Stack<Integer> integerStack = new Stack();
+    Stack<Integer> integerStack = new Stack<>();
     boolean isDifficultMode = false;
     boolean isFinished = false;
     boolean isMeasured = false;
     MazeRandomManager mazeRandomManager;
-    ArrayList<MazeUnit> mazeUnits = new ArrayList();
+    ArrayList<MazeUnit> mazeUnits = new ArrayList<>();
     int numHeight = 0;
     int numWidth = 0;
     Paint paint1 = new Paint();
     Paint paint2 = new Paint();
     GameParamUtils mGameParamUtils = new GameParamUtils();
+
     public interface Callback {
         void onGenerate(boolean z);
 
@@ -88,8 +89,8 @@ public class MazeView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (getMeasuredWidth() != 0 && getMeasuredWidth() != 0 && !this.isMeasured) {
-            this.numHeight = getMeasuredHeight() / 40;
-            this.numWidth = getMeasuredWidth() / 40;
+            this.numHeight = getMeasuredHeight() / POINT_SIZE;
+            this.numWidth = getMeasuredWidth() / POINT_SIZE;
             this.isMeasured = true;
             initPoint();
         }
@@ -99,23 +100,25 @@ public class MazeView extends View {
         this.mazeRandomManager = new MazeRandomManager(this.numWidth, this.numHeight);
     }
 
+    //开始生成地图
     public void startGenerate() {
-        if (this.mazeRandomManager != null) {
-            this.mazeUnits = this.mazeRandomManager.generate();
-            if (this.mazeUnits.size() > 2) {
-                ((MazeUnit) this.mazeUnits.get(this.mazeUnits.size() - 1)).isRightWallExist = false;
+        if (mazeRandomManager != null) {
+            mazeUnits = mazeRandomManager.generate();
+            if (mazeUnits.size() > 2) {
+                mazeUnits.get(this.mazeUnits.size() - 1).isRightWallExist = false;
             }
-            this.handler.postDelayed(new Runnable() {
+            handler.postDelayed(new Runnable() {
                 public void run() {
                     MazeView.this.currentStep = 0;
                     MazeView.this.invalidate();
-                    if (MazeView.this.callback != null) {
-                        MazeView.this.callback.onGenerate(true);
+                    if (callback != null) {
+                        callback.onGenerate(true);
                     }
                 }
             }, 2000);
         }
     }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

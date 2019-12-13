@@ -1,8 +1,6 @@
 package com.uestc.mode.mazeadventure.activity;
 
 import android.app.Activity;
-import android.media.MediaPlayer;
-import android.opengl.Visibility;
 import android.os.Handler;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +14,7 @@ import com.uestc.mode.mazeadventure.R;
 
 public class MazeAutoActivity extends Activity implements View.OnClickListener {
     int MAX = 3;
-    int count = 0;
+    int dismissCount = 0;
     View girlBigView;
     View girlSmallView;
     Handler handler = new Handler();
@@ -127,9 +125,8 @@ public class MazeAutoActivity extends Activity implements View.OnClickListener {
             }
             @Override
             public void onAnimationEnd(Animation animation) {
-                MazeAutoActivity mazeAutoActivity = MazeAutoActivity.this;
-                mazeAutoActivity.count++;
-                if (MazeAutoActivity.this.count <= 2) {
+                dismissCount++;
+                if (MazeAutoActivity.this.dismissCount <= 2) {
                     MazeAutoActivity.this.girlBigView.startAnimation(showAnim);
                     return;
                 }

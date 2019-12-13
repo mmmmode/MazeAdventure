@@ -8,6 +8,11 @@
         android:layout_height="match_parent"
         android:src="@drawable/maze_bg"
         android:scaleType="centerCrop"/>
+    <FrameLayout
+        android:id="@+id/anim_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
