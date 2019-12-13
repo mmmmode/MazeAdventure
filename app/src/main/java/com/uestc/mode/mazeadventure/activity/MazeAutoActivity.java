@@ -9,6 +9,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Toast;
 
+import com.uestc.mode.mazeadventure.manager.DialogManager;
+import com.uestc.mode.mazeadventure.settingpref.SettingsPrefs;
 import com.uestc.mode.mazeadventure.view.MazeView;
 import com.uestc.mode.mazeadventure.R;
 
@@ -69,14 +71,14 @@ public class MazeAutoActivity extends Activity implements View.OnClickListener {
             @Override
             public void onGenerate(boolean generated) {
                 MazeAutoActivity.this.isGenerated = generated;
-                Toast.makeText(MazeAutoActivity.this, "我们之间的距离就像迷宫忽远又忽近", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MazeAutoActivity.this, "公主别怕，微臣来也！", Toast.LENGTH_SHORT).show();
                 MazeAutoActivity.this.showSmallGirl();
             }
             @Override
             public void onToTheEnd() {
                 MazeAutoActivity.this.isRunning = false;
                 MazeAutoActivity.this.isGenerated = false;
-                Toast.makeText(MazeAutoActivity.this, "我来了，你在哪？", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MazeAutoActivity.this, "我公主呢？我不到啊！", Toast.LENGTH_SHORT).show();
                 MazeAutoActivity.this.dismissSmallGirl();
             }
         });
@@ -106,7 +108,6 @@ public class MazeAutoActivity extends Activity implements View.OnClickListener {
         dismissAnim.setFillAfter(true);
         dismissAnim.setInterpolator(new AccelerateDecelerateInterpolator());
         this.girlBigView.startAnimation(showAnim);
-        this.isEnd = true;
         showAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -130,9 +131,12 @@ public class MazeAutoActivity extends Activity implements View.OnClickListener {
                     MazeAutoActivity.this.girlBigView.startAnimation(showAnim);
                     return;
                 }
+                isEnd = true;
                 MazeAutoActivity.this.findViewById(R.id.generate_maze_action_tv).setVisibility(View.GONE);
                 MazeAutoActivity.this.findViewById(R.id.generate_maze_tv).setVisibility(View.GONE);
                 MazeAutoActivity.this.findViewById(R.id.exitTv).setVisibility(View.VISIBLE);
+                if(SettingsPrefs.getInstance().getCurrentCheckouPoint() == 0)
+                     SettingsPrefs.getInstance().setCurrentCheckPoint(1);
             }
             @Override
             public void onAnimationRepeat(Animation animation) {
@@ -155,11 +159,11 @@ public class MazeAutoActivity extends Activity implements View.OnClickListener {
                     if (!this.isEnd && !this.isRunning) {
                         if (this.isGenerated) {
                             this.isRunning = true;
-                            Toast.makeText(this, "记忆随风翻过，足迹逐渐清晰", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "迷宫路慢慢铺开了", Toast.LENGTH_LONG).show();
                             this.mazeView.autoStep();
                             break;
                         }
-                        Toast.makeText(this, "足迹尚未填满，我亦不知去向", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "先点左边蟹蟹", Toast.LENGTH_LONG).show();
                         return;
                     }
                     return;
@@ -167,7 +171,7 @@ public class MazeAutoActivity extends Activity implements View.OnClickListener {
                     if (!this.isEnd && !this.isRunning) {
                         this.isGenerated = false;
                         this.mazeView.startGenerate();
-                        Toast.makeText(this, "你站在我对侧，却隔着迷宫般银河", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "曾经和你一起走过传说中的爱河", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     return;
@@ -179,6 +183,19 @@ public class MazeAutoActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onBackPressed() {
-        finish();
+        if(isEnd){
+            finish();
+            return;
+        }
+        DialogManager.onBackPressDialog(this, new DialogManager.OnDialogClickListener(){
+            @Override
+            public void onNagetiveButtonClick() {
+                finish();
+            }
+
+            @Override
+            public void onPositiveButtonClick() {
+            }
+        });
     }
 }

@@ -8,8 +8,55 @@
     android:orientation="vertical">
     <FrameLayout
         android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <ImageView
+            android:src="@drawable/tiankong2"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/tv_current_guanka"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/checkoutpoint"/>
+
+        <TextView
+            android:id="@+id/tv_current_step"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/currentStep"/>
+        <TextView
+            android:id="@+id/tv_current_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_gravity="left|bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/currentTime"/>
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/repeat_bg"/>
         <com.uestc.mode.mazeadventure.view.MazeView
             android:id="@+id/maze_view"
             android:layout_margin="8dp"
@@ -36,23 +83,22 @@
             android:layout_width="180dp"
             android:layout_height="180dp"
             android:layout_marginLeft="10dp"
+            android:background="#4dffffff"
             android:layout_marginBottom="10dp">
             <ImageView
                 android:id="@+id/top_view"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/top"
+                android:src="@drawable/circle_up"
                 android:padding="8dp"
-                android:background="@drawable/shape_control_bg"
                 android:layout_centerHorizontal="true"/>
 
             <ImageView
                 android:id="@+id/bottom_view"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/bottom"
+                android:src="@drawable/circle_down"
                 android:padding="8dp"
-                android:background="@drawable/shape_control_bg"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"/>
 
@@ -60,18 +106,16 @@
                 android:id="@+id/left_view"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/left"
+                android:src="@drawable/circle_left"
                 android:padding="8dp"
-                android:background="@drawable/shape_control_bg"
                 android:layout_centerVertical="true"/>
 
             <ImageView
                 android:id="@+id/right_view"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/right"
+                android:src="@drawable/circle_right"
                 android:padding="8dp"
-                android:background="@drawable/shape_control_bg"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
@@ -86,7 +130,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="星光请为我指路"
+            android:text="皇家天眼探路"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="20sp"
@@ -101,7 +145,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="公主，我来救你"
+            android:text="公主，我来了"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="20sp"

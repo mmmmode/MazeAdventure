@@ -77,7 +77,6 @@ public class MazeView extends View {
 
     private void initView(Context context) {
         this.context = context;
-        setBackgroundColor(ViewCompat.MEASURED_STATE_MASK);
         this.paint1.setColor(-1);
         this.paint1.setAntiAlias(true);
         this.paint1.setStyle(Paint.Style.STROKE);

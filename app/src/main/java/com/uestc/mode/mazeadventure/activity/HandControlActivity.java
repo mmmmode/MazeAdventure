@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.uestc.mode.mazeadventure.manager.ControlManager;
+import com.uestc.mode.mazeadventure.manager.DialogManager;
+import com.uestc.mode.mazeadventure.settingpref.SettingsPrefs;
 import com.uestc.mode.mazeadventure.view.MazeView;
 import com.uestc.mode.mazeadventure.R;
 
@@ -23,22 +26,49 @@ public class HandControlActivity extends Activity implements View.OnClickListene
     Handler handler = new Handler();
     boolean isDifficultMode = false;
     boolean isEnd = false;
+    boolean isControlEnd = false;
     boolean isGenerated = false;
     boolean isRunning = false;
     MazeView mazeView;
+    TextView currentGuankaTv;
+    TextView currentTimeTv;
+    TextView currentStepTv;
+    private int currenCheckouPoint;
+    private int currentTime = 0;
+    private int currentStep = 0;
+    Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            for(;;){
+                if(isControlEnd)return;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                currentTime++;
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        currentTimeTv.setText(getResources().getString(R.string.currentTime,currentTime+""));
+                    }
+                });
+            }
+        }
+    });
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            HandControlActivity.this.time -= 200;
-            HandControlActivity.this.handler.postDelayed(HandControlActivity.this.runnable, HandControlActivity.this.time);
-            if (HandControlActivity.this.time <= 1000) {
-                if (HandControlActivity.this.girlBigView.getVisibility() == View.VISIBLE) {
+            time -= 200;
+            handler.postDelayed(runnable, HandControlActivity.this.time);
+            if (time <= 1000) {
+                if (girlBigView.getVisibility() == View.VISIBLE) {
                     AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
                 }
                 return;
             }
             AlphaAnimation alphaAnimation2;
-            if (HandControlActivity.this.girlBigView.getVisibility() == View.VISIBLE) {
+            if (girlBigView.getVisibility() == View.VISIBLE) {
                 alphaAnimation2 = new AlphaAnimation(1.0f, 0.0f);
                 alphaAnimation2.setDuration(200);
                 alphaAnimation2.setFillAfter(true);
@@ -49,7 +79,7 @@ public class HandControlActivity extends Activity implements View.OnClickListene
                 alphaAnimation2.setFillAfter(true);
                 alphaAnimation2.setInterpolator(new AccelerateDecelerateInterpolator());
             }
-            HandControlActivity.this.girlBigView.startAnimation(alphaAnimation2);
+            girlBigView.startAnimation(alphaAnimation2);
         }
     };
     long time = 2000;
@@ -58,16 +88,22 @@ public class HandControlActivity extends Activity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_handmaze);
+        initView();
+        initListener();
+        initManager();
+        initData();
+    }
+
+    private void initView() {
         this.mazeView = (MazeView) findViewById(R.id.maze_view);
         this.girlSmallView = findViewById(R.id.small_girl);
         this.girlBigView = findViewById(R.id.girl_big);
         this.girlBigView.setVisibility(View.INVISIBLE);
         this.girlSmallView.setVisibility(View.INVISIBLE);
+        this.currentStepTv = findViewById(R.id.tv_current_step);
+        this.currentTimeTv = findViewById(R.id.tv_current_time);
+        currentGuankaTv = findViewById(R.id.tv_current_guanka);
         findViewById(R.id.generate_maze_action_tv).setVisibility(View.GONE);
-        initListener();
-        initData();
-        this.isDifficultMode = getIntent().getBooleanExtra("diff", false);
-        this.mazeView.isDifficultMode(this.isDifficultMode);
     }
 
     private void initListener() {
@@ -78,7 +114,7 @@ public class HandControlActivity extends Activity implements View.OnClickListene
             @Override
             public void onGenerate(boolean generated) {
                 HandControlActivity.this.isGenerated = generated;
-                Toast.makeText(HandControlActivity.this, "星光，懂我，也懂你", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HandControlActivity.this, "通往被困公主的道路已经打通", Toast.LENGTH_SHORT).show();
                 HandControlActivity.this.findViewById(R.id.generate_maze_action_tv).setVisibility(View.GONE);
                 HandControlActivity.this.findViewById(R.id.generate_maze_tv).setVisibility(View.GONE);
                 HandControlActivity.this.showSmallGirl();
@@ -87,20 +123,41 @@ public class HandControlActivity extends Activity implements View.OnClickListene
             public void onToTheEnd() {
                 HandControlActivity.this.isRunning = false;
                 HandControlActivity.this.isGenerated = false;
-                Toast.makeText(HandControlActivity.this, "我来了，你在哪？", Toast.LENGTH_SHORT).show();
+                isControlEnd = true;
+                Toast.makeText(HandControlActivity.this, "卧槽，公主呢？？？", Toast.LENGTH_SHORT).show();
                 HandControlActivity.this.dismissSmallGirl();
             }
         });
     }
 
-    public void initData() {
+    private void reset(){
+        currentTime = 0;
+        currentStep = 0;
+    }
+    private void initManager() {
         this.controlManager = new ControlManager(this);
         this.controlManager.setCallback(new ControlManager.Callback() {
             @Override
             public void controlCallback(int controlType) {
-                HandControlActivity.this.mazeView.controlNextStep(controlType);
+                mazeView.controlNextStep(controlType);
+                if(isControlEnd)return;
+                if(currentStep == 0){
+                    if(!thread.isAlive())
+                    thread.start();
+                }
+                currentStep++;
+                currentStepTv.setText(getResources().getString(R.string.currentStep,currentStep+""));
             }
         });
+    }
+
+    public void initData() {
+        this.isDifficultMode = getIntent().getBooleanExtra("diff", false);
+        this.mazeView.isDifficultMode(this.isDifficultMode);
+        currenCheckouPoint = SettingsPrefs.getInstance().getCurrentCheckouPoint();
+        currentGuankaTv.setText(getResources().getString(R.string.checkoutpoint,currenCheckouPoint+""));
+        currentTimeTv.setText(getResources().getString(R.string.currentTime,currentTime+""));
+        currentStepTv.setText(getResources().getString(R.string.currentStep,currentStep+""));
     }
 
     private void dismissSmallGirl() {
@@ -112,7 +169,7 @@ public class HandControlActivity extends Activity implements View.OnClickListene
         this.handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                HandControlActivity.this.showBigGirl();
+                showBigGirl();
             }
         }, 1000);
     }
@@ -127,7 +184,6 @@ public class HandControlActivity extends Activity implements View.OnClickListene
         dismissAnim.setFillAfter(true);
         dismissAnim.setInterpolator(new AccelerateDecelerateInterpolator());
         this.girlBigView.startAnimation(showAnim);
-        this.isEnd = true;
         showAnim.setAnimationListener(new Animation.AnimationListener() {
 
             @Override
@@ -157,9 +213,13 @@ public class HandControlActivity extends Activity implements View.OnClickListene
                     HandControlActivity.this.girlBigView.startAnimation(showAnim);
                     return;
                 }
+                isEnd = true;
                 HandControlActivity.this.findViewById(R.id.generate_maze_action_tv).setVisibility(View.GONE);
                 HandControlActivity.this.findViewById(R.id.generate_maze_tv).setVisibility(View.GONE);
                 HandControlActivity.this.findViewById(R.id.exitTv).setVisibility(View.VISIBLE);
+                if(SettingsPrefs.getInstance().getCurrentCheckouPoint() == 1){
+                    SettingsPrefs.getInstance().setCurrentCheckPoint(2);
+                }
             }
 
             @Override
@@ -184,11 +244,11 @@ public class HandControlActivity extends Activity implements View.OnClickListene
                     if (!this.isEnd && !this.isRunning) {
                         if (this.isGenerated) {
                             this.isRunning = true;
-                            Toast.makeText(this, "记忆随风翻过，足迹逐渐清晰", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "看我机器人速通操作", Toast.LENGTH_LONG).show();
                             this.mazeView.autoStep();
                             break;
                         }
-                        Toast.makeText(this, "足迹尚未填满，我亦不知去向", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "没图呢，先生成一个", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     return;
@@ -196,7 +256,7 @@ public class HandControlActivity extends Activity implements View.OnClickListene
                     if (!this.isEnd && !this.isRunning) {
                         this.isGenerated = false;
                         this.mazeView.startGenerate();
-                        Toast.makeText(this, "你站在我对侧，却隔着迷宫般银河", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "曾经和你一起走过，传说中的迷宫", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     return;
@@ -208,6 +268,19 @@ public class HandControlActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onBackPressed() {
-        finish();
+        if(isEnd){
+            finish();
+            return;
+        }
+        DialogManager.onBackPressDialog(this, new DialogManager.OnDialogClickListener(){
+            @Override
+            public void onNagetiveButtonClick() {
+                finish();
+            }
+
+            @Override
+            public void onPositiveButtonClick() {
+            }
+        });
     }
 }

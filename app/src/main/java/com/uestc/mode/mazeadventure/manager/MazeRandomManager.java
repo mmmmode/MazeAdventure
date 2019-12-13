@@ -1,7 +1,9 @@
 package com.uestc.mode.mazeadventure.manager;
 
 import android.util.Log;
+
 import com.uestc.mode.mazeadventure.bean.MazeUnit;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15,6 +17,7 @@ public class MazeRandomManager {
         this.height = height;
     }
 
+    //随机迷宫生成算法
     public ArrayList<MazeUnit> generate() {
         mazeUnits = new ArrayList<>();//初始化一个有序的迷宫单元集合
         //生成一面全是墙的迷宫单元
@@ -22,7 +25,7 @@ public class MazeRandomManager {
             for (int j = 1; j <= width; j++) {
                 MazeUnit mazeUnit = new MazeUnit();
                 mazeUnit.id = j + i * width;//从左到右数id从1开始排序
-                mazeUnit.group = j+i*width;
+                mazeUnit.group = j + i * width;
                 mazeUnits.add(mazeUnit);
             }
         }
@@ -55,17 +58,15 @@ public class MazeRandomManager {
                         break;
                 }
                 //判断是否越界,没有越界就更新id2和方向
-                boolean isValid = tempID%width+id1%width != 1;
+                boolean isValid = tempID % width + id1 % width != 1;
                 if (tempID <= width * height && tempID > 0 && isValid) {
                     id2 = tempID;
                     mDirect = direct;
                     break;
                 }
             }
-            Log.d("qwerqqqq",id1+":"+id2);
             //确定了两个点之后，判断是否相连，这时候就需要根据链表来判断了
             boolean isConnected = detectIsConnected(id1, id2, true);
-            Log.d("qwerqq", "qwer:" + isConnected);
             if (!isConnected) {
                 switch (mDirect) {
                     case 1:
@@ -89,7 +90,6 @@ public class MazeRandomManager {
 //                mazeUnits.get(id2-1).father = id1;
                 //判断起点和终点是否相连
                 if (detectIsConnected(startId, endId, false)) {
-                    Log.d("qqwwe","qqwwe");
                     break;
                 }
             }
@@ -100,13 +100,13 @@ public class MazeRandomManager {
 
     //判断是否相连的方法
     private boolean detectIsConnected(final int id, int id2, boolean isCheck) {
-        if(mazeUnits.get(id-1).group==mazeUnits.get(id2-1).group)return true;
+        if (mazeUnits.get(id - 1).group == mazeUnits.get(id2 - 1).group) return true;
         else {
-            if(!isCheck)return false;
-            int newGroup = mazeUnits.get(id-1).group;
-            int oldGroup = mazeUnits.get(id2-1).group;
-            for (int i=0;i<mazeUnits.size();i++){
-                if(mazeUnits.get(i).group == oldGroup){
+            if (!isCheck) return false;
+            int newGroup = mazeUnits.get(id - 1).group;
+            int oldGroup = mazeUnits.get(id2 - 1).group;
+            for (int i = 0; i < mazeUnits.size(); i++) {
+                if (mazeUnits.get(i).group == oldGroup) {
                     mazeUnits.get(i).group = newGroup;
                 }
             }
