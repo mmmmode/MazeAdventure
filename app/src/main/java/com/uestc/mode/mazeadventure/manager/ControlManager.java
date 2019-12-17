@@ -5,6 +5,9 @@ import android.view.View;
 
 import com.uestc.mode.mazeadventure.R;
 
+/**
+ * 遥控器控制
+ */
 public class ControlManager implements View.OnClickListener {
     public static final int CONTROL_BOTTOM = 3;
     public static final int CONTROL_LEFT = 0;
@@ -27,12 +30,12 @@ public class ControlManager implements View.OnClickListener {
         init();
     }
 
-    public void init() {
-        this.root = this.context.findViewById(R.id.controlView);
-        this.leftView = this.root.findViewById(R.id.left_view);
-        this.rightView = this.root.findViewById(R.id.right_view);
-        this.topView = this.root.findViewById(R.id.top_view);
-        this.bottomView = this.root.findViewById(R.id.bottom_view);
+    private void init() {
+        this.root = context.findViewById(R.id.controlView);
+        this.leftView = root.findViewById(R.id.left_view);
+        this.rightView = root.findViewById(R.id.right_view);
+        this.topView = root.findViewById(R.id.top_view);
+        this.bottomView = root.findViewById(R.id.bottom_view);
         this.leftView.setOnClickListener(this);
         this.rightView.setOnClickListener(this);
         this.topView.setOnClickListener(this);
@@ -42,19 +45,20 @@ public class ControlManager implements View.OnClickListener {
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
+
     @Override
     public void onClick(View view) {
         if (this.callback != null) {
             int type = -1;
             int id = view.getId();
             if (id == R.id.bottom_view) {
-                type = 3;
+                type = CONTROL_BOTTOM;
             } else if (id == R.id.left_view) {
-                type = 0;
+                type = CONTROL_LEFT;
             } else if (id == R.id.right_view) {
-                type = 1;
+                type = CONTROL_RIGHT;
             } else if (id == R.id.top_view) {
-                type = 2;
+                type = CONTROL_TOP;
             }
             if (type != -1) {
                 this.callback.controlCallback(type);

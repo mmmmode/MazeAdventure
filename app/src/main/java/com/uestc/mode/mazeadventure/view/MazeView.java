@@ -96,7 +96,8 @@ public class MazeView extends View {
     }
 
     private void initPoint() {
-        this.mazeRandomManager = new MazeRandomManager(this.numWidth, this.numHeight);
+        mazeRandomManager = new MazeRandomManager();
+        mazeRandomManager.reload(this.numWidth, this.numHeight);
     }
 
     //开始生成地图
@@ -124,10 +125,6 @@ public class MazeView extends View {
         for (int i = 0; i < this.mazeUnits.size(); i++) {
             MazeUnit mazeUnit = this.mazeUnits.get(i);
             if (!this.isDifficultMode || onFlashOff(this.currentStep + 1, mazeUnit.id)) {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(mazeUnit.id);
-                stringBuilder.append(BuildConfig.FLAVOR);
-                Log.d("mdst", stringBuilder.toString());
                 int height = (mazeUnit.id - 1) / numWidth;
                 int width = mazeUnit.id - height * numWidth;
                 if (mazeUnit.isLeftWallExist)
@@ -201,10 +198,6 @@ public class MazeView extends View {
             if (isToWall && GameParamUtils.isVibrate()) {
                 VibratorUtil.Vibrate((Activity) this.context, 100);
             }
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("currentStep:");
-            stringBuilder.append(this.currentStep);
-            Log.d("modetest", stringBuilder.toString());
             invalidate();
             if (this.currentStep > this.mazeUnits.size() - 1) {
                 this.handler.post(new Runnable() {

@@ -5,9 +5,14 @@ package com.uestc.mode.mazeadventure.util;
  * date: 2019/12/11
  */
 public class GameParamUtils {
+    public static final String SET_MODE = "game_mode";
+    public static final int TEACH_MODE = 0;
+    public static final int LIGHT_MODE = 1;
+    public static final int DARK_MODE = 2;
     private int RANGE =2;//开灯范围
     private int MODE = 0;//游戏模式
     private int checkoutpoint = 1;//关卡数
+    private int cellSize = 80;//格子大小
     private static boolean isVibrate = true;
     private static boolean isSoundOpen = false;
 
@@ -41,5 +46,13 @@ public class GameParamUtils {
 
     public void setMODE(int MODE) {
         this.MODE = MODE;
+    }
+
+    public int getCellSize() {
+        return cellSize;
+    }
+
+    public void setCellSize(int cellSize) {
+        this.cellSize = cellSize;
     }
 }

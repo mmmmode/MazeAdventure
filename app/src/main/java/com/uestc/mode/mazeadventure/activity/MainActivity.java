@@ -81,7 +81,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void showSoundDialog() {
         if(GameParamUtils.isIsSoundOpen())return;
-//        if(!SettingsPrefs.getInstance().isFirstLogin())return;
+        if(!SettingsPrefs.getInstance().isFirstLogin())return;
         DialogManager.showMDialog(this,new DialogManager.OnDialogClickListener(){
             @Override
             public void onPositiveButtonClick() {
@@ -136,7 +136,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     return;
                 }
                 intent2 = new Intent(this, HandControlActivity.class);
-                intent2.putExtra("diff", true);
+                intent2.putExtra(GameParamUtils.SET_MODE, GameParamUtils.LIGHT_MODE);
                 startActivity(intent2);
                 break;
             case R.id.hand_light_extview:
@@ -145,7 +145,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     return;
                 }
                 intent2 = new Intent(this, HandControlActivity.class);
-                intent2.putExtra("diff", false);
+                intent2.putExtra(GameParamUtils.SET_MODE, GameParamUtils.DARK_MODE);
                 startActivity(intent2);
                 break;
             case R.id.why_save_queen:

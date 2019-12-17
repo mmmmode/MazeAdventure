@@ -10,9 +10,12 @@ import java.util.Random;
 public class MazeRandomManager {
     public int width;
     public int height;
-    ArrayList<MazeUnit> mazeUnits = null;
+    private ArrayList<MazeUnit> mazeUnits = null;
 
-    public MazeRandomManager(int width, int height) {
+    public MazeRandomManager() {
+    }
+
+    public void reload(int width,int height){
         this.width = width;
         this.height = height;
     }
