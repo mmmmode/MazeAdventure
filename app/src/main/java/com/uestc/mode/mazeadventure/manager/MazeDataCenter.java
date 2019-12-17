@@ -2,6 +2,8 @@ package com.uestc.mode.mazeadventure.manager;
 
 import com.uestc.mode.mazeadventure.bean.MapBean;
 import com.uestc.mode.mazeadventure.bean.MazeUnit;
+import com.uestc.mode.mazeadventure.bean.TwoDBean;
+import com.uestc.mode.mazeadventure.util.GameParamUtils;
 import com.uestc.mode.mazeadventure.util.MLog;
 
 import java.util.ArrayList;
@@ -12,13 +14,31 @@ import java.util.ArrayList;
  * date: 2019/12/16
  */
 public class MazeDataCenter {
+    private static MazeDataCenter mDataCenter;
+
     private MapBean mapBean;//地图bean 定义宽高
     private MazeRandomManager mMazeRandomManager = new MazeRandomManager();//迷宫随机生成类
     private ArrayList<MazeUnit> mMazeUnits1D;//一维迷宫数组
     private MazeUnit[][] mazeUnits2D;//二维迷宫数组
+    private GameParamUtils mGameParamUtils = new GameParamUtils();
+    private TwoDBean mCurrenStep;
 
-    public MazeDataCenter(){
+    private ScoreManager mScoreManager;//计分板类
+
+    public static MazeDataCenter getInstance(){
+        if(mDataCenter == null){
+            synchronized (MazeDataCenter.class){
+                if(mDataCenter == null){
+                    mDataCenter = new MazeDataCenter();
+                }
+            }
+        }
+        return mDataCenter;
+    }
+
+    private MazeDataCenter(){
         mMazeRandomManager = new MazeRandomManager();
+        mScoreManager = new ScoreManager();
     }
 
     //生成迷宫
@@ -55,4 +75,31 @@ public class MazeDataCenter {
     }
 
 
+    public TwoDBean getCurrenStep() {
+        return mCurrenStep;
+    }
+
+    public void setCurrenStep(TwoDBean mCurrenStep) {
+        this.mCurrenStep = mCurrenStep;
+    }
+
+    public GameParamUtils getGameParamUtils() {
+        return mGameParamUtils;
+    }
+
+    public void setGameParamUtils(GameParamUtils mGameParamUtils) {
+        this.mGameParamUtils = mGameParamUtils;
+    }
+
+    public void resetScore(){
+        mScoreManager.reset();
+    }
+
+    public void startTimer(){
+        mScoreManager.start();
+    }
+
+    public void stopTimer(){
+        mScoreManager.stop();
+    }
 }

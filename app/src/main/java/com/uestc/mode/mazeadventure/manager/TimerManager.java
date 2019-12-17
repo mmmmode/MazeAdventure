@@ -9,7 +9,6 @@ import java.util.TimerTask;
  */
 public class TimerManager {
     Timer timer;
-    int count = 0;
     private boolean isStarted;
     private OnTimerCallback onTimerCallback;
     public TimerManager(){
@@ -17,7 +16,6 @@ public class TimerManager {
     }
 
     public void reset(){
-        count = 0;
         timer.cancel();
         isStarted = false;
     }
@@ -32,9 +30,8 @@ public class TimerManager {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                count++;
                 if(onTimerCallback != null){
-                    onTimerCallback.onTimerElapsed(count);
+                    onTimerCallback.onTimerElapsed();
                 }
             }
         },0,1000);
@@ -49,6 +46,6 @@ public class TimerManager {
     }
 
     public interface OnTimerCallback{
-        void onTimerElapsed(int count);
+        void onTimerElapsed();
     }
 }

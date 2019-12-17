@@ -9,8 +9,10 @@ import android.view.View;
 
 import com.uestc.mode.mazeadventure.bean.MapBean;
 import com.uestc.mode.mazeadventure.bean.MazeUnit;
+import com.uestc.mode.mazeadventure.manager.MazeDataCenter;
 import com.uestc.mode.mazeadventure.util.CommonUtils;
 import com.uestc.mode.mazeadventure.util.GameParamUtils;
+import com.uestc.mode.mazeadventure.util.MLog;
 
 /**
  * @author mode
@@ -23,10 +25,7 @@ public class MapView extends View {
     Context context;
     int cellWidthNum = 0;//单元格宽总数
     int cellHeightNum = 0;//单元格高总数
-    int CELL_SIZE = 80;//设置单元格大小
     private boolean isMeasured = false;//是否绘制了宽高
-    MazeUnit[][] mazeUnits;
-    private GameParamUtils gameParamUtils;
 
     public MapView(Context context) {
         super(context);
@@ -46,7 +45,6 @@ public class MapView extends View {
 
     private void initView(Context context) {
         this.context = context;
-        gameParamUtils = new GameParamUtils();
         initPaint();
     }
 
@@ -71,17 +69,8 @@ public class MapView extends View {
 
     //初始化格子宽高
     private void initCellNum(){
-        cellHeightNum = getMeasuredHeight() / CELL_SIZE;
-        cellWidthNum = getMeasuredWidth() / CELL_SIZE;
-    }
-
-    public void setMazeUnits(MazeUnit[][] mazeUnits) {
-        this.mazeUnits = mazeUnits;
-        invalidate();
-    }
-
-    public void setGameParamUtils(GameParamUtils gameParamUtils) {
-        this.gameParamUtils = gameParamUtils;
+        cellHeightNum = getMeasuredHeight() / MazeDataCenter.getInstance().getGameParamUtils().getCellSize();
+        cellWidthNum = getMeasuredWidth() /  MazeDataCenter.getInstance().getGameParamUtils().getCellSize();
     }
 
     public MapBean getMapBean(){
@@ -92,11 +81,15 @@ public class MapView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int POINT_SIZE = gameParamUtils.getCellSize();
+        int POINT_SIZE =  MazeDataCenter.getInstance().getGameParamUtils().getCellSize();
+        MazeUnit[][] mazeUnits = MazeDataCenter.getInstance().getMazeUnits2D();
         if(mazeUnits == null)return;
         for(int currenCellHeight=0;currenCellHeight<mazeUnits.length;currenCellHeight++){
             for(int currentCellWidth=0;currentCellWidth<mazeUnits[currenCellHeight].length;currentCellWidth++){
                 MazeUnit mazeUnit = mazeUnits[currenCellHeight][currentCellWidth];
+                if(currenCellHeight == 0 && currentCellWidth == 0){
+                    MLog.log((currentCellWidth * POINT_SIZE + POINT_SIZE / 2)+":"+currenCellHeight * POINT_SIZE);
+                }
 //                if (gameParamUtils.getMODE() == GameParamUtils.DARK_MODE || CommonUtils.isInRange(this.currentStep + 1, mazeUnit.id)){
                     if (mazeUnit.isLeftWallExist)
                         canvas.drawRect(currentCellWidth * POINT_SIZE + POINT_SIZE / 2, currenCellHeight * POINT_SIZE, currentCellWidth * POINT_SIZE + POINT_SIZE / 2 + 2, (currenCellHeight + 1) * POINT_SIZE, paint1);

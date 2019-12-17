@@ -13,26 +13,15 @@ import com.uestc.mode.mazeadventure.view.MazeView;
  * date: 2019/12/17
  */
 public class MoveControlManager {
-    private TwoDBean currentStep;
-    private MazeUnit[][] mazeUnits;
     private OnMoveCallback onMoveCallback;
 
     public MoveControlManager(){
     }
 
-    public void setMazeUnits(MazeUnit[][] mazeUnits) {
-        this.mazeUnits = mazeUnits;
-    }
-
-    public void setCurrentStep(TwoDBean twoDBean){
-        this.currentStep = twoDBean;
-    }
-
-    public TwoDBean getCurrentStep(){
-        return currentStep;
-    }
 
     public void controlNextStep(int type) {
+        MazeUnit[][] mazeUnits = MazeDataCenter.getInstance().getMazeUnits2D();
+        TwoDBean currentStep = MazeDataCenter.getInstance().getCurrenStep();
         if(currentStep == null || mazeUnits == null ||
                 currentStep.x > mazeUnits[0].length || currentStep.y > mazeUnits.length
                 || currentStep.x < 0 || currentStep.y < 0)return;

@@ -28,6 +28,7 @@ public class HandControlActivity extends Activity implements View.OnClickListene
 
     public void initData() {
         mGameMode = getIntent().getIntExtra(GameParamUtils.SET_MODE, GameParamUtils.TEACH_MODE);
+        mGameManager.setGameMode(mGameMode);
     }
 
 

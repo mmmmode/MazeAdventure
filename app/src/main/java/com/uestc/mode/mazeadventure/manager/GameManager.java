@@ -24,8 +24,6 @@ public class GameManager {
     private ControlManager mControlManager;//手柄控制类
     private MazeDataCenter mMazeDataCenter;//数据中心类
     private MoveControlManager mMoveControlManager;//移动控制类
-    private TimerManager mTimerManager;//时间类
-    private ScoreManager mScoreManager;//计分板类
 
     private boolean isGenerated = false;
     private boolean isGameStarted = false;
@@ -38,20 +36,17 @@ public class GameManager {
     public void init() {
         mMapLayout = mContext.findViewById(R.id.map_layout);
         initManager();
-        bindData();
         setControlListener();
+    }
+
+    //设置游戏参数
+    private void reloadGameParamUtils(){
     }
 
     private void initManager() {
         mControlManager = new ControlManager(mContext);
-        mMazeDataCenter = new MazeDataCenter();
-        mTimerManager = new TimerManager();
+        mMazeDataCenter = MazeDataCenter.getInstance();
         mMoveControlManager = new MoveControlManager();
-        mScoreManager = new ScoreManager();
-    }
-
-    private void bindData() {
-        mMoveControlManager.setMazeUnits(mMazeDataCenter.getMazeUnits2D());
     }
 
     private void setControlListener() {
@@ -71,23 +66,15 @@ public class GameManager {
                         VibratorUtil.Vibrate((Activity) mContext, 100);
                     }
                 }else {
-                    //TODO 计数
-                    if(!mTimerManager.isStarted())
-                        mTimerManager.start();
-                    mMapLayout.changeCurrentPosition(currenStep);
+                    MazeDataCenter.getInstance().startTimer();
+                    MazeDataCenter.getInstance().setCurrenStep(currenStep);
+                    mMapLayout.changeCurrentPosition();
                 }
             }
 
             @Override
             public void onToTheEnd() {
-                mTimerManager.stop();
-            }
-        });
-
-        mTimerManager.setTimerCallback(new TimerManager.OnTimerCallback() {
-            @Override
-            public void onTimerElapsed(int count) {
-                //TODO 时间
+                MazeDataCenter.getInstance().stopTimer();
             }
         });
     }
@@ -95,9 +82,6 @@ public class GameManager {
     //生成地图
     public boolean generateMaze() {
         boolean isSuccess = mMazeDataCenter.generateMaze(mMapLayout.mMapView.getMapBean());
-        if (isSuccess) {
-            mMapLayout.setMazeUnits(mMazeDataCenter.getMazeUnits2D());
-        }
         isGenerated = isSuccess;
         delayStartGame();
         return isSuccess;
@@ -108,7 +92,11 @@ public class GameManager {
             @Override
             public void run() {
                 isGameStarted = true;
+                mMapLayout.refreshMapView();
             }
         },2000);
+    }
+
+    public void setGameMode(int mGameMode) {
     }
 }

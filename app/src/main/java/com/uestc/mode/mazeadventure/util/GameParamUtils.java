@@ -9,10 +9,12 @@ public class GameParamUtils {
     public static final int TEACH_MODE = 0;
     public static final int LIGHT_MODE = 1;
     public static final int DARK_MODE = 2;
+
     private int RANGE =2;//开灯范围
     private int MODE = 0;//游戏模式
     private int checkoutpoint = 1;//关卡数
     private int cellSize = 80;//格子大小
+
     private static boolean isVibrate = true;
     private static boolean isSoundOpen = false;
 
