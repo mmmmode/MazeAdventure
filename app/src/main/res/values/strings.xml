@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">勇者斗魔王</string>
-    <string name="checkoutpoint">第 %s 关</string>
-    <string name="currentStep">当前步数: %s 步</string>
-    <string name="currentTime">当前时间: %s 秒</string>
+    <string name="checkoutpoint">第 %d 关</string>
+    <string name="currentStep">当前步数: %d 步</string>
+    <string name="currentTime">当前时间: %d 秒</string>
+    <string name="result_current_time">当前时间: %d 秒</string>
+    <string name="result_stantard_time">标准: %d 秒</string>
+    <string name="result_high_time">最高: %d 秒</string>
+    <string name="result_current_step">当前步数: %d </string>
+    <string name="result_stantard_step">标准: %d </string>
+    <string name="result_high_step">最高: %d </string>
+    <string name="result_tongguan">通关！您的评分为: %s </string>
+    <string name="result_meitongguan">失败！请继续努力 </string>
+
 </resources>

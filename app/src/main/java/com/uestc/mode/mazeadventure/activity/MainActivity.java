@@ -1,17 +1,12 @@
 package com.uestc.mode.mazeadventure.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,7 +15,7 @@ import android.widget.Toast;
 
 import com.uestc.mode.mazeadventure.R;
 import com.uestc.mode.mazeadventure.manager.AnimAreaManager;
-import com.uestc.mode.mazeadventure.manager.DialogManager;
+import com.uestc.mode.mazeadventure.dialog.DialogManager;
 import com.uestc.mode.mazeadventure.settingpref.SettingsPrefs;
 import com.uestc.mode.mazeadventure.util.GameParamUtils;
 

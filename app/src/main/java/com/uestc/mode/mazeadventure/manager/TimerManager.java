@@ -12,7 +12,6 @@ public class TimerManager {
     private boolean isStarted;
     private OnTimerCallback onTimerCallback;
     public TimerManager(){
-        timer = new Timer();
     }
 
     public void reset(){
@@ -27,6 +26,7 @@ public class TimerManager {
     public void start(){
         if(isStarted)return;
         isStarted = true;
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -39,6 +39,10 @@ public class TimerManager {
 
     public void stop(){
         isStarted = false;
+        try {
+            timer.cancel();
+            timer = null;
+        }catch (Exception e){}
     }
 
     public void setTimerCallback(OnTimerCallback onTimerCallback){

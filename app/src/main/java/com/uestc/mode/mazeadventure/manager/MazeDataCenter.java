@@ -39,6 +39,7 @@ public class MazeDataCenter {
     private MazeDataCenter(){
         mMazeRandomManager = new MazeRandomManager();
         mScoreManager = new ScoreManager();
+        initScoreListener();
     }
 
     //生成迷宫
@@ -79,7 +80,8 @@ public class MazeDataCenter {
         return mCurrenStep;
     }
 
-    public void setCurrenStep(TwoDBean mCurrenStep) {
+    public void setCurrenStep(TwoDBean mCurrenStep,int step) {
+        mScoreManager.setStep(step);
         this.mCurrenStep = mCurrenStep;
     }
 
@@ -97,6 +99,61 @@ public class MazeDataCenter {
 
     public void startTimer(){
         mScoreManager.start();
+    }
+
+    public void bindScoreListener(ScoreListener scoreListener){
+        this.scoreListener = scoreListener;
+    }
+
+    public void unbindScoreListener(){
+        scoreListener = null;
+    }
+
+    private ScoreListener scoreListener = null;
+
+    public interface ScoreListener{
+        void onStep(int step);
+        void onTime(int time);
+        void onCheckpoint(int checkpoint);
+    }
+
+    public void setCheckpoint(int checkpoint){
+        mGameParamUtils.setCheckoutpoint(checkpoint);
+        if(scoreListener!=null)
+            scoreListener.onCheckpoint(checkpoint);
+    }
+    public int getCheckPoint(){
+        return mGameParamUtils.getCheckoutpoint();
+    }
+
+    public int getStepCount(){
+        return mScoreManager.getStep();
+    }
+
+    public int getTime(){
+        return mScoreManager.getTime();
+    }
+
+    private void initScoreListener(){
+        mScoreManager.setOnTimerCallback(new ScoreManager.OnTimerCallback() {
+            @Override
+            public void onTimerElapsed(int time) {
+                if(scoreListener!=null){
+                    scoreListener.onTime(time);
+                }
+            }
+
+            @Override
+            public void onStepChanged(int step) {
+                if(scoreListener!=null)
+                    scoreListener.onStep(step);
+            }
+        });
+    }
+
+    public void reset() {
+        mScoreManager.reset();
+        mazeUnits2D = null;
     }
 
     public void stopTimer(){

@@ -6,8 +6,9 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.view.View;
 
-import com.uestc.mode.mazeadventure.manager.DialogManager;
+import com.uestc.mode.mazeadventure.dialog.DialogManager;
 import com.uestc.mode.mazeadventure.manager.GameManager;
+import com.uestc.mode.mazeadventure.manager.MazeDataCenter;
 import com.uestc.mode.mazeadventure.util.GameParamUtils;
 import com.uestc.mode.mazeadventure.R;
 
@@ -51,15 +52,21 @@ public class HandControlActivity extends Activity implements View.OnClickListene
     }
 
     public void generate(){
-        handler.postDelayed(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 mGameManager.generateMaze();
             }
-        },2000);
+        });
     }
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        MazeDataCenter.getInstance().reset();
+        super.onDestroy();
     }
 }

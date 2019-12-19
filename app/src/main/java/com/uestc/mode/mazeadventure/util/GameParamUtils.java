@@ -57,4 +57,12 @@ public class GameParamUtils {
     public void setCellSize(int cellSize) {
         this.cellSize = cellSize;
     }
+
+    public int getCheckoutpoint() {
+        return checkoutpoint;
+    }
+
+    public void setCheckoutpoint(int checkoutpoint) {
+        this.checkoutpoint = checkoutpoint;
+    }
 }

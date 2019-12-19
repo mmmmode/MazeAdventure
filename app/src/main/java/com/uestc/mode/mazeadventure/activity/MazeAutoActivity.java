@@ -9,7 +9,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Toast;
 
-import com.uestc.mode.mazeadventure.manager.DialogManager;
+import com.uestc.mode.mazeadventure.dialog.DialogManager;
 import com.uestc.mode.mazeadventure.settingpref.SettingsPrefs;
 import com.uestc.mode.mazeadventure.view.MazeView;
 import com.uestc.mode.mazeadventure.R;

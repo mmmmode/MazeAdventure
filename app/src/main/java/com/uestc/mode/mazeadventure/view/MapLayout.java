@@ -57,7 +57,7 @@ public class MapLayout extends FrameLayout {
     private void initHeroView(){
         heroView = new HeroView(mContext);
         heroView.setHeroViewSrc(mContext.getResources().getDrawable(R.drawable.run_hero));
-        MazeDataCenter.getInstance().setCurrenStep(new TwoDBean(0,0));
+        MazeDataCenter.getInstance().setCurrenStep(new TwoDBean(0,0),0);
         changeCurrentPosition();
         mapContainer.addView(heroView);
         heroView.setVisibility(GONE);

@@ -14,6 +14,7 @@ import com.uestc.mode.mazeadventure.view.MazeView;
  */
 public class MoveControlManager {
     private OnMoveCallback onMoveCallback;
+    int stepCount = 0;
 
     public MoveControlManager(){
     }
@@ -62,11 +63,12 @@ public class MoveControlManager {
                     }
             }
             if(onMoveCallback != null){
-                onMoveCallback.onMove(!isToWall,currentStep);
+                if(!isToWall)stepCount++;
+                onMoveCallback.onMove(!isToWall,currentStep,stepCount);
             }
 
             //判断是否走完
-            if (currentStep.x >  mazeUnits[0].length || currentStep.y > mazeUnits.length) {
+            if (currentStep.x >=  mazeUnits[0].length -1 && currentStep.y >= mazeUnits.length -1) {
                 if (onMoveCallback != null) {
                     onMoveCallback.onToTheEnd();
                 }
@@ -78,7 +80,7 @@ public class MoveControlManager {
     }
 
     public interface OnMoveCallback{
-        void onMove(boolean isMoved,TwoDBean twoDBean);
+        void onMove(boolean isMoved,TwoDBean twoDBean,int stepCount);
         void onToTheEnd();
     }
 }

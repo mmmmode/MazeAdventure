@@ -1,4 +1,4 @@
-package com.uestc.mode.mazeadventure.manager;
+package com.uestc.mode.mazeadventure.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -83,4 +83,5 @@ public class DialogManager {
                     }
                 }).show();
     }
+
 }
